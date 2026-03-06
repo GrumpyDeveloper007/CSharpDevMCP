@@ -15,3 +15,5 @@ Create sample .mcp.json file in the root of your solution with the following con
   }
 }
 ```
+
+Run copilot with the following query : call get_pending_changes and produce a code review of the changes

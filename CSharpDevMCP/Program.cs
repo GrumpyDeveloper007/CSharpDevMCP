@@ -26,7 +26,7 @@ var builder = Host.CreateApplicationBuilder(args);
 builder.Logging.AddConsole(consoleLogOptions =>
 {
     // Configure all logs to go to stderr
-    consoleLogOptions.LogToStandardErrorThreshold = LogLevel.Debug;
+    consoleLogOptions.LogToStandardErrorThreshold = LogLevel.Error;
 });
 builder.Services
     .AddMcpServer(options =>
@@ -47,9 +47,7 @@ if (Debugger.IsAttached)
 }
 else
 {
-    server.Run();
+    await server.RunAsync();
 }
 
-
-Console.WriteLine("Hello MCP World!");
 

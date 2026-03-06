@@ -1,12 +1,7 @@
-﻿using ModelContextProtocol.Server;
-using System;
-using System.Collections.Generic;
+﻿using CSharpDevMCP.Services;
+using ModelContextProtocol.Server;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System.IO;
 
 namespace CSharpDevMCP.MCP
 {
@@ -29,36 +24,31 @@ namespace CSharpDevMCP.MCP
 
                 string workingDir = dirInfo?.FullName ?? Environment.CurrentDirectory;
 
-                var psi = new ProcessStartInfo("git", "--no-pager diff .")
-                {
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    WorkingDirectory = workingDir
-                };
+                var stdout = GitCommands.GetChangedFiles(workingDir);
 
-                using var proc = Process.Start(psi);
-                if (proc == null)
-                {
-                    return $"Failed to start git process in '{workingDir}'";
-                }
+                var sb = new StringBuilder();
+                GitCommands.GetNewFiles(workingDir, sb);
 
-                string stdout = proc.StandardOutput.ReadToEnd();
-                string stderr = proc.StandardError.ReadToEnd();
-                proc.WaitForExit();
-
-                if (!string.IsNullOrEmpty(stderr))
-                {
-                    return $"GIT ERROR:\n{stderr}\n{stdout}";
-                }
-
-                return string.IsNullOrEmpty(stdout) ? "No changes" : stdout;
+                return string.IsNullOrEmpty(stdout + sb.ToString()) ? "No changes" : stdout + sb.ToString();
             }
             catch (Exception ex)
             {
                 return $"Exception running git: {ex.Message}";
             }
         }
+
+        private void WriteLog(string message)
+        {
+            string logPath = StaticSettings.SettingValues.PathToSolution + @"\log.txt";
+            try
+            {
+                System.IO.File.AppendAllText(logPath, $"{DateTime.Now}: {message}\r\n");
+            }
+            catch
+            {
+                // Ignore logging errors
+            }
+        }
+
     }
 }
