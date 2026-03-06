@@ -1,10 +1,26 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CSharpDevMCP;
+using CSharpDevMCP.MCP;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using ModelContextProtocol.Protocol;
-using ModelContextProtocol.Server;
-using System.ComponentModel;
+using System.Diagnostics;
+
+
+IConfigurationRoot config = new ConfigurationBuilder()
+    .AddJsonFile("local.settings.json")
+    .AddEnvironmentVariables()
+    .Build();
+
+var settings = config.GetRequiredSection("Values").Get<SettingValues>();
+
+if (settings == null)
+{
+    Console.WriteLine("Unable to load local.settings.json!");
+    return;
+}
+StaticSettings.SettingValues = settings;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Logging.AddConsole(consoleLogOptions =>
@@ -24,7 +40,15 @@ builder.Services
     .WithToolsFromAssembly();
 var server = builder.Build();
 
-server.Run();
+if (Debugger.IsAttached)
+{
+    var test = new GitTool();
+    var test2 = test.GetPendingChanges();
+}
+else
+{
+    server.Run();
+}
 
 
 Console.WriteLine("Hello MCP World!");
