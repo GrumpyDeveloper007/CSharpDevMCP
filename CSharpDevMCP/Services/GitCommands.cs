@@ -14,7 +14,7 @@ namespace CSharpDevMCP.Services
             var psi = new ProcessStartInfo("git", "--no-pager diff .")
             {
                 RedirectStandardOutput = true,
-                RedirectStandardError = false,
+                RedirectStandardError = true,
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 WorkingDirectory = workingDir,

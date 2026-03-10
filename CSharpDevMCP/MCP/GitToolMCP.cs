@@ -6,15 +6,15 @@ using System.Text;
 namespace CSharpDevMCP.MCP
 {
     [McpServerToolType]
-    public class GitTool
+    public class GitToolMCP
     {
-        [McpServerTool, Description("")]
+        [McpServerTool, Description("A test endpoint")]
         public string RunTest()
         {
-            return "test";
+            return "It works!";
         }
 
-        [McpServerTool, Description("")]
+        [McpServerTool, Description("GetPendingChanges")]
         public string GetPendingChanges()
         {
             try

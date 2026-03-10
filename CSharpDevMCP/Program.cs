@@ -42,7 +42,7 @@ var server = builder.Build();
 
 if (Debugger.IsAttached)
 {
-    var test = new GitTool();
+    var test = new GitToolMCP();
     var test2 = test.GetPendingChanges();
 }
 else
