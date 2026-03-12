@@ -29,7 +29,7 @@ namespace CSharpDevMCP.MCP
                 var sb = new StringBuilder();
                 GitCommands.GetNewFiles(workingDir, sb);
 
-                return string.IsNullOrEmpty(stdout + sb.ToString()) ? "No changes" : stdout + sb.ToString();
+                return string.IsNullOrEmpty(stdout + sb.ToString()) ? "No changes\r\n" : $"{stdout}\r\n{sb.ToString()}";
             }
             catch (Exception ex)
             {

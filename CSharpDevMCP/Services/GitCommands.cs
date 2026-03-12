@@ -44,7 +44,7 @@ namespace CSharpDevMCP.Services
         public static void GetNewFiles(string workingDir, StringBuilder sb)
         {
             // Run git status --porcelain to get changed files
-            var statusPsi = new ProcessStartInfo("git", "status --porcelain")
+            var statusPsi = new ProcessStartInfo("git", "status --porcelain -uall")
             {
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
