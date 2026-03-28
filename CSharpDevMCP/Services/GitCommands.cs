@@ -29,7 +29,6 @@ namespace CSharpDevMCP.Services
 
             string stdout = proc.StandardOutput.ReadToEnd();
             string stderr = proc.StandardError.ReadToEnd();
-            var output = new List<string>();
 
             proc.WaitForExit();
 
@@ -78,7 +77,7 @@ namespace CSharpDevMCP.Services
                     return;
                 }
 
-                var lines = statusOut.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                var lines = statusOut.Split(['\n', '\r'], StringSplitOptions.RemoveEmptyEntries);
                 foreach (var line in lines)
                 {
                     if (line.StartsWith(" M")) continue;
@@ -87,7 +86,7 @@ namespace CSharpDevMCP.Services
                     // if rename, take destination
                     if (pathPart.Contains("->"))
                     {
-                        var parts = pathPart.Split(new[] { "->" }, StringSplitOptions.None);
+                        var parts = pathPart.Split(["->"], StringSplitOptions.None);
                         pathPart = parts.Last().Trim();
                     }
 

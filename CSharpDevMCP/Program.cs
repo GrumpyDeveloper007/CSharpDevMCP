@@ -1,4 +1,5 @@
 ﻿using CSharpDevMCP;
+using CSharpDevMCP.FlaUI;
 using CSharpDevMCP.MCP;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,15 +34,30 @@ builder.Services
     {
         options.ServerInfo = new Implementation { Name = "TimeServer", Version = "1.0.0" };
         //options.ListenAnyIP(5001, listenOptions => // Listen on port 5001 for HTTPS
-
-
     })
     .WithStdioServerTransport()
     .WithToolsFromAssembly();
+
+builder.Services.AddSingleton<SnapshotBuilder, SnapshotBuilder>();
+builder.Services.AddSingleton<ElementRegistry, ElementRegistry>();
+builder.Services.AddSingleton<SessionManager, SessionManager>();
+
 var server = builder.Build();
 
 if (Debugger.IsAttached)
 {
+    var test3 = new SessionManager();
+    var windows = test3.ListWindows();
+    var (handle, title, processName) = windows.SingleOrDefault(o => o.title == StaticSettings.SettingValues.ApplicationName);
+    var snapshot = new SnapshotBuilder(new ElementRegistry());
+    var window = test3.GetWindow(handle);
+    if (window == null)
+    {
+        Console.WriteLine($"Could not find window with title {StaticSettings.SettingValues.ApplicationName}");
+        return;
+    }
+    var snapshotText = snapshot.BuildSnapshot(handle, window);
+
     var test = new GitToolMCP();
     var test2 = test.GetPendingChanges();
 }

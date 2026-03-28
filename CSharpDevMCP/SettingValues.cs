@@ -10,7 +10,8 @@ namespace CSharpDevMCP
 {
     internal class SettingValues
     {
-        public required string PathToSolution { get; set; }
+        public string PathToSolution { get; set; } = "";
+        public string ApplicationName { get; set; } = "";
     }
 
 }

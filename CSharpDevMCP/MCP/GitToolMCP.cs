@@ -5,6 +5,9 @@ using System.Text;
 
 namespace CSharpDevMCP.MCP
 {
+    /// <summary>
+    /// Provides MCP tools for interacting with Git, such as getting pending changes.
+    /// </summary>
     [McpServerToolType]
     public class GitToolMCP
     {
@@ -29,7 +32,7 @@ namespace CSharpDevMCP.MCP
                 var sb = new StringBuilder();
                 GitCommands.GetNewFiles(workingDir, sb);
 
-                return string.IsNullOrEmpty(stdout + sb.ToString()) ? "No changes\r\n" : $"{stdout}\r\n{sb.ToString()}";
+                return string.IsNullOrEmpty(stdout + sb.ToString()) ? "No changes\r\n" : $"{stdout}\r\n{sb}";
             }
             catch (Exception ex)
             {
@@ -37,7 +40,7 @@ namespace CSharpDevMCP.MCP
             }
         }
 
-        private void WriteLog(string message)
+        private static void WriteLog(string message)
         {
             string logPath = StaticSettings.SettingValues.PathToSolution + @"\log.txt";
             try

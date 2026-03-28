@@ -8,6 +8,6 @@ namespace CSharpDevMCP
 {
     internal class StaticSettings
     {
-        public static SettingValues SettingValues { get; set; }
+        public static SettingValues SettingValues { get; set; } = new();
     }
 }
