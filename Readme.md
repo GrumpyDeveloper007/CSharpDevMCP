@@ -38,6 +38,8 @@ If you have a .mcp.json file open in visual studio, you can stop and restart thi
 
 Run copilot with the following query : call get_pending_changes and produce a code review of the changes
 
+or to review changes on your branch : call Get_branch_changes and produce a code review of the changes
+
 ## UI Interaction
 
 E.g. run get_snapshot and click on the number 7 button
