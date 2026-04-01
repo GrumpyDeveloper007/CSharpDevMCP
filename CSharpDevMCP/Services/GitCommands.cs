@@ -40,6 +40,38 @@ namespace CSharpDevMCP.Services
             return string.IsNullOrEmpty(stdout) ? "No changes" : stdout;
         }
 
+        public static string GetBranchChanges(string workingDir)
+        {
+            var psi = new ProcessStartInfo("git", "--no-pager diff main...HEAD")
+            {
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WorkingDirectory = workingDir,
+                RedirectStandardInput = true,
+            };
+
+            var proc = Process.Start(psi);
+            if (proc == null)
+            {
+                return $"Failed to start git process in '{workingDir}'";
+            }
+
+            string stdout = proc.StandardOutput.ReadToEnd();
+            string stderr = proc.StandardError.ReadToEnd();
+
+            proc.WaitForExit();
+
+            if (!string.IsNullOrEmpty(stderr))
+            {
+                return $"GIT ERROR:\n{stderr}\n{stdout}";
+            }
+
+            return string.IsNullOrEmpty(stdout) ? "No changes" : stdout;
+        }
+
+
         public static void GetNewFiles(string workingDir, StringBuilder sb)
         {
             // Run git status --porcelain to get changed files

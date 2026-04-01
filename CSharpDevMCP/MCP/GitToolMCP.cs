@@ -40,6 +40,29 @@ namespace CSharpDevMCP.MCP
             }
         }
 
+        [McpServerTool, Description("GetBranchChanges")]
+        public string GetBranchChanges()
+        {
+            try
+            {
+                string startDir = StaticSettings.SettingValues.PathToSolution;
+                var dirInfo = new DirectoryInfo(startDir);
+
+                string workingDir = dirInfo?.FullName ?? Environment.CurrentDirectory;
+
+                var stdout = GitCommands.GetBranchChanges(workingDir);
+
+                var sb = new StringBuilder();
+                GitCommands.GetNewFiles(workingDir, sb);
+
+                return string.IsNullOrEmpty(stdout + sb.ToString()) ? "No changes\r\n" : $"{stdout}\r\n{sb}";
+            }
+            catch (Exception ex)
+            {
+                return $"Exception running git: {ex.Message}";
+            }
+        }
+
         private static void WriteLog(string message)
         {
             string logPath = StaticSettings.SettingValues.PathToSolution + @"\log.txt";
