@@ -1,6 +1,7 @@
 ﻿using CSharpDevMCP;
 using CSharpDevMCP.FlaUI;
 using CSharpDevMCP.MCP;
+using CSharpDevMCP.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -46,6 +47,8 @@ var server = builder.Build();
 
 if (Debugger.IsAttached)
 {
+    var test4 = MDExtractor.ExtractHeadingBlocks(File.ReadAllText(@"D:\Coding\CSharpDevMCP\README.md"), new List<string> { "Code review" });
+
     var test3 = new SessionManager();
     var windows = test3.ListWindows();
     var (handle, title, processName) = windows.SingleOrDefault(o => o.title == StaticSettings.SettingValues.ApplicationName);

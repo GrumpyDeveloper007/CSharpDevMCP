@@ -36,7 +36,7 @@ If you have a .mcp.json file open in visual studio, you can stop and restart thi
 
 ## Code review
 
-Run copilot with the following query : call get_pending_changes and produce a code review of the changes
+Run copilot with the following query : call get_pending_changes and produce a code review of the changes, use get_past_lessons to load past lessons learned.
 
 or to review changes on your branch : call Get_branch_changes and produce a code review of the changes
 

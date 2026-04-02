@@ -12,6 +12,7 @@ namespace CSharpDevMCP
     {
         public string PathToSolution { get; set; } = "";
         public string ApplicationName { get; set; } = "";
+        public string LessonsMdFilePath { get; set; } = "";
     }
 
 }

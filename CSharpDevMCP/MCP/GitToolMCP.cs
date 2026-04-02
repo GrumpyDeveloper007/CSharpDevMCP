@@ -63,6 +63,41 @@ namespace CSharpDevMCP.MCP
             }
         }
 
+        [McpServerTool, Description("GetPastLessons")]
+        public string GetPastLessons()
+        {
+            try
+            {
+                string startDir = StaticSettings.SettingValues.PathToSolution;
+                var dirInfo = new DirectoryInfo(startDir);
+
+                string workingDir = dirInfo?.FullName ?? Environment.CurrentDirectory;
+
+                var stdout = GitCommands.GetGitFiles(workingDir);
+                var lines = stdout.Split(['\n', '\r'], StringSplitOptions.RemoveEmptyEntries);
+                var paths = new List<string>();
+                foreach (var line in lines)
+                {
+                    var pathPart = line.Length > 3 ? line.Substring(3).Trim() : line.Trim();
+                    var folder = pathPart.Substring(0, pathPart.IndexOf('/'));
+                }
+
+                var test4 = MDExtractor.ExtractHeadingBlocks(File.ReadAllText(StaticSettings.SettingValues.LessonsMdFilePath), paths);
+
+
+                var sb = new StringBuilder();
+                GitCommands.GetNewFiles(workingDir, sb);
+
+                return string.IsNullOrEmpty(stdout + sb.ToString()) ? "No changes\r\n" : $"{stdout}\r\n{sb}";
+            }
+            catch (Exception ex)
+            {
+                return $"Exception running git: {ex.Message}";
+            }
+        }
+
+
+
         private static void WriteLog(string message)
         {
             string logPath = StaticSettings.SettingValues.PathToSolution + @"\log.txt";
