@@ -47,7 +47,7 @@ var server = builder.Build();
 
 if (Debugger.IsAttached)
 {
-    var test4 = MDExtractor.ExtractHeadingBlocks(File.ReadAllText(@"D:\Coding\CSharpDevMCP\README.md"), new List<string> { "Code review" });
+    var test4 = MDExtractor.ExtractHeadingBlocks(File.ReadAllText(StaticSettings.SettingValues.LessonsMdFilePath), new List<string> { "Code review" });
 
     var test3 = new SessionManager();
     var windows = test3.ListWindows();
@@ -62,7 +62,7 @@ if (Debugger.IsAttached)
     var snapshotText = snapshot.BuildSnapshot(handle, window);
 
     var test = new GitToolMCP();
-    var test2 = test.GetPendingChanges();
+    var test2 = test.GetPendingChanges("");
 }
 else
 {

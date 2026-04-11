@@ -18,11 +18,11 @@ namespace CSharpDevMCP.MCP
         }
 
         [McpServerTool, Description("GetPendingChanges")]
-        public string GetPendingChanges()
+        public string GetPendingChanges(string subPath)
         {
             try
             {
-                string startDir = StaticSettings.SettingValues.PathToSolution;
+                string startDir = StaticSettings.SettingValues.PathToSolution + subPath;
                 var dirInfo = new DirectoryInfo(startDir);
 
                 string workingDir = dirInfo?.FullName ?? Environment.CurrentDirectory;
@@ -41,11 +41,11 @@ namespace CSharpDevMCP.MCP
         }
 
         [McpServerTool, Description("GetBranchChanges")]
-        public string GetBranchChanges()
+        public string GetBranchChanges(string subPath)
         {
             try
             {
-                string startDir = StaticSettings.SettingValues.PathToSolution;
+                string startDir = StaticSettings.SettingValues.PathToSolution + subPath;
                 var dirInfo = new DirectoryInfo(startDir);
 
                 string workingDir = dirInfo?.FullName ?? Environment.CurrentDirectory;
@@ -64,31 +64,21 @@ namespace CSharpDevMCP.MCP
         }
 
         [McpServerTool, Description("GetPastLessons")]
-        public string GetPastLessons()
+        public string GetPastLessons(string subPath)
         {
             try
             {
-                string startDir = StaticSettings.SettingValues.PathToSolution;
-                var dirInfo = new DirectoryInfo(startDir);
-
-                string workingDir = dirInfo?.FullName ?? Environment.CurrentDirectory;
-
-                var stdout = GitCommands.GetGitFiles(workingDir);
-                var lines = stdout.Split(['\n', '\r'], StringSplitOptions.RemoveEmptyEntries);
-                var paths = new List<string>();
-                foreach (var line in lines)
-                {
-                    var pathPart = line.Length > 3 ? line.Substring(3).Trim() : line.Trim();
-                    var folder = pathPart.Substring(0, pathPart.IndexOf('/'));
-                }
-
-                var test4 = MDExtractor.ExtractHeadingBlocks(File.ReadAllText(StaticSettings.SettingValues.LessonsMdFilePath), paths);
-
+                var lessons = MDExtractor.ExtractHeadingBlocks(File.ReadAllText(StaticSettings.SettingValues.LessonsMdFilePath), [subPath + "General"]);
 
                 var sb = new StringBuilder();
-                GitCommands.GetNewFiles(workingDir, sb);
+                foreach (var lesson in lessons)
+                {
+                    sb.AppendLine($"Lesson: {lesson.Key}");
+                    sb.AppendLine(lesson.Value);
+                    sb.AppendLine();
+                }
 
-                return string.IsNullOrEmpty(stdout + sb.ToString()) ? "No changes\r\n" : $"{stdout}\r\n{sb}";
+                return sb.ToString();
             }
             catch (Exception ex)
             {

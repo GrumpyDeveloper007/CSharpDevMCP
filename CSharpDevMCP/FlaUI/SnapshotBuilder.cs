@@ -8,7 +8,7 @@ namespace CSharpDevMCP.FlaUI;
 /// Builds agent-friendly accessibility snapshots from UI Automation trees
 /// From https://github.com/shanselman/FlaUI-MCP.git
 /// </summary>
-public class SnapshotBuilder(ElementRegistry _elementRegistry, int _maxDepth = 10)
+public class SnapshotBuilder(ElementRegistry _elementRegistry, int _maxDepth = 100)
 {
 
     public string BuildSnapshot(string windowHandle, AutomationElement root)
