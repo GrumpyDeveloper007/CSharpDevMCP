@@ -68,7 +68,7 @@ namespace CSharpDevMCP.MCP
         {
             try
             {
-                var lessons = MDExtractor.ExtractHeadingBlocks(File.ReadAllText(StaticSettings.SettingValues.LessonsMdFilePath), [subPath + "General"]);
+                var lessons = MDExtractor.ExtractHeadingBlocks(File.ReadAllText(StaticSettings.SettingValues.LessonsMdFilePath), [subPath, "General"]);
 
                 var sb = new StringBuilder();
                 foreach (var lesson in lessons)
