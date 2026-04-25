@@ -8,8 +8,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
 		.mcp.json = .mcp.json
+		lessons.md = lessons.md
 		Readme.md = Readme.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationController", "ApplicationController\ApplicationController.csproj", "{A666E76B-8486-EF56-B97C-9F3B1F50C968}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +30,14 @@ Global
 		{F5F61471-3E32-342B-1242-13C12C53DFEC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5F61471-3E32-342B-1242-13C12C53DFEC}.Release|x64.ActiveCfg = Release|x64
 		{F5F61471-3E32-342B-1242-13C12C53DFEC}.Release|x64.Build.0 = Release|x64
+		{A666E76B-8486-EF56-B97C-9F3B1F50C968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A666E76B-8486-EF56-B97C-9F3B1F50C968}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A666E76B-8486-EF56-B97C-9F3B1F50C968}.Debug|x64.ActiveCfg = Debug|x64
+		{A666E76B-8486-EF56-B97C-9F3B1F50C968}.Debug|x64.Build.0 = Debug|x64
+		{A666E76B-8486-EF56-B97C-9F3B1F50C968}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A666E76B-8486-EF56-B97C-9F3B1F50C968}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A666E76B-8486-EF56-B97C-9F3B1F50C968}.Release|x64.ActiveCfg = Release|x64
+		{A666E76B-8486-EF56-B97C-9F3B1F50C968}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

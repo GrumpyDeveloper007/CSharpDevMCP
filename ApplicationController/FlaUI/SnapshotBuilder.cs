@@ -2,13 +2,13 @@ using System.Text;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 
-namespace CSharpDevMCP.FlaUI;
+namespace ApplicationController.FlaUI;
 
 /// <summary>
 /// Builds agent-friendly accessibility snapshots from UI Automation trees
 /// From https://github.com/shanselman/FlaUI-MCP.git
 /// </summary>
-public class SnapshotBuilder(ElementRegistry _elementRegistry, int _maxDepth = 10)
+public class SnapshotBuilder(ElementRegistry _elementRegistry, int _maxDepth = 100)
 {
 
     public string BuildSnapshot(string windowHandle, AutomationElement root)
@@ -57,10 +57,11 @@ public class SnapshotBuilder(ElementRegistry _elementRegistry, int _maxDepth = 1
 
     private static string BuildElementLine(AutomationElement element, string refId, string? name, string role)
     {
-        var parts = new List<string>();
-
-        // Role first
-        parts.Add(role);
+        var parts = new List<string>
+        {
+            // Role first
+            role
+        };
 
         // Name in quotes if present
         if (!string.IsNullOrEmpty(name))

@@ -18,11 +18,11 @@ namespace CSharpDevMCP.MCP
         }
 
         [McpServerTool, Description("GetPendingChanges")]
-        public string GetPendingChanges()
+        public string GetPendingChanges(string subPath)
         {
             try
             {
-                string startDir = StaticSettings.SettingValues.PathToSolution;
+                string startDir = StaticSettings.SettingValues.PathToSolution + subPath;
                 var dirInfo = new DirectoryInfo(startDir);
 
                 string workingDir = dirInfo?.FullName ?? Environment.CurrentDirectory;
@@ -41,11 +41,11 @@ namespace CSharpDevMCP.MCP
         }
 
         [McpServerTool, Description("GetBranchChanges")]
-        public string GetBranchChanges()
+        public string GetBranchChanges(string subPath)
         {
             try
             {
-                string startDir = StaticSettings.SettingValues.PathToSolution;
+                string startDir = StaticSettings.SettingValues.PathToSolution + subPath;
                 var dirInfo = new DirectoryInfo(startDir);
 
                 string workingDir = dirInfo?.FullName ?? Environment.CurrentDirectory;
@@ -62,6 +62,31 @@ namespace CSharpDevMCP.MCP
                 return $"Exception running git: {ex.Message}";
             }
         }
+
+        [McpServerTool, Description("GetPastLessons")]
+        public string GetPastLessons(string subPath)
+        {
+            try
+            {
+                var lessons = MDExtractor.ExtractHeadingBlocks(File.ReadAllText(StaticSettings.SettingValues.LessonsMdFilePath), [subPath, "General"]);
+
+                var sb = new StringBuilder();
+                foreach (var lesson in lessons)
+                {
+                    sb.AppendLine($"Lesson: {lesson.Key}");
+                    sb.AppendLine(lesson.Value);
+                    sb.AppendLine();
+                }
+
+                return sb.ToString();
+            }
+            catch (Exception ex)
+            {
+                return $"Exception running git: {ex.Message}";
+            }
+        }
+
+
 
         private static void WriteLog(string message)
         {

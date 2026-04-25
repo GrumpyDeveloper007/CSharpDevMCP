@@ -71,6 +71,43 @@ namespace CSharpDevMCP.Services
             return string.IsNullOrEmpty(stdout) ? "No changes" : stdout;
         }
 
+        public static string GetGitFiles(string workingDir)
+        {
+            // Run git status --porcelain to get changed files
+            var statusPsi = new ProcessStartInfo("git", "status -s")
+            {
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardInput = true,
+                WorkingDirectory = workingDir
+            };
+
+            using (var statusProc = Process.Start(statusPsi))
+            {
+                if (statusProc == null)
+                {
+                    return "Failed to start git status process in '{workingDir}'";
+                }
+
+                string statusOut = statusProc.StandardOutput.ReadToEnd();
+                string statusErr = statusProc.StandardError.ReadToEnd();
+                statusProc.WaitForExit();
+
+                if (!string.IsNullOrEmpty(statusErr))
+                {
+                    return $"GIT STATUS ERROR: {statusErr}";
+                }
+
+                if (string.IsNullOrWhiteSpace(statusOut))
+                {
+                    return "";
+                }
+                return statusOut;
+            }
+        }
+
 
         public static void GetNewFiles(string workingDir, StringBuilder sb)
         {

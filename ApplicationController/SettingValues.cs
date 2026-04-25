@@ -6,12 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSharpDevMCP
+namespace ApplicationController
 {
     internal class SettingValues
     {
-        public string PathToSolution { get; set; } = "";
-        public string LessonsMdFilePath { get; set; } = "";
+        public string ApplicationName { get; set; } = "";
     }
 
 }

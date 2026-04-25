@@ -1,9 +1,9 @@
-﻿using CSharpDevMCP.FlaUI;
+﻿using ApplicationController.FlaUI;
 using FlaUI.Core.Input;
 using ModelContextProtocol.Server;
 using System.ComponentModel;
 
-namespace CSharpDevMCP.MCP
+namespace ApplicationController.MCP
 {
     /// <summary>
     /// Provides MCP tools for interacting with the application under test, such as getting snapshots, clicking elements, and setting text.
@@ -18,7 +18,7 @@ namespace CSharpDevMCP.MCP
             try
             {
                 var windows = _sessionManager.ListWindows();
-                var (handle, title, processName) = windows.SingleOrDefault(o => o.title == StaticSettings.SettingValues.ApplicationName);
+                var (handle, title, processName) = windows.SingleOrDefault(o => o.title.StartsWith(StaticSettings.SettingValues.ApplicationName, StringComparison.InvariantCultureIgnoreCase));
                 var window = _sessionManager.GetWindow(handle);
                 if (window == null) return $"Could not find window.";
                 var snapshotText = _snapshotBuilder.BuildSnapshot(handle, window);

@@ -1,6 +1,6 @@
 using FlaUI.Core.AutomationElements;
 
-namespace CSharpDevMCP.FlaUI;
+namespace ApplicationController.FlaUI;
 
 /// <summary>
 /// Maps element refs (like "w1e5") to AutomationElements
