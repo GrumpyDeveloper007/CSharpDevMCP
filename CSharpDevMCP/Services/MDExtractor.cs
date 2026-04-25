@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
+﻿
 namespace CSharpDevMCP.Services
 {
     internal class MDExtractor
     {
+        internal static readonly string[] separator = ["\r\n", "\r", "\n"];
+
         /// <summary>
         /// Extracts text blocks for specified markdown headings.
         /// Each block includes content from the heading until the next heading of equal or higher level.
@@ -20,11 +16,11 @@ namespace CSharpDevMCP.Services
         {
             if (string.IsNullOrEmpty(markdownContent) || headingNames == null || headingNames.Count == 0)
             {
-                return new Dictionary<string, string>();
+                return [];
             }
 
             var result = new Dictionary<string, string>();
-            var lines = markdownContent.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+            var lines = markdownContent.Split(separator, StringSplitOptions.None);
 
             foreach (var headingName in headingNames)
             {
@@ -50,7 +46,7 @@ namespace CSharpDevMCP.Services
             for (int i = 0; i < lines.Length; i++)
             {
                 var line = lines[i];
-                
+
                 // Check if this line is a heading that matches our heading name
                 if (IsHeadingLine(line, headingName, out int level))
                 {
@@ -72,11 +68,11 @@ namespace CSharpDevMCP.Services
             for (int i = startIndex + 1; i < lines.Length; i++)
             {
                 var line = lines[i];
-                
+
                 if (GetHeadingLevel(line) > 0)
                 {
                     int currentLevel = GetHeadingLevel(line);
-                    
+
                     // Stop if we find a heading at the same or higher level (lower number = higher level)
                     if (currentLevel <= headingLevel)
                     {
@@ -97,7 +93,7 @@ namespace CSharpDevMCP.Services
         private static bool IsHeadingLine(string line, string headingName, out int level)
         {
             level = GetHeadingLevel(line);
-            
+
             if (level == 0)
             {
                 return false;
@@ -105,7 +101,7 @@ namespace CSharpDevMCP.Services
 
             // Extract heading text without the markdown symbols
             var headingText = line.Substring(level).Trim();
-            
+
             // Compare case-insensitively
             return headingText.Equals(headingName, StringComparison.OrdinalIgnoreCase);
         }
@@ -116,7 +112,7 @@ namespace CSharpDevMCP.Services
         /// </summary>
         private static int GetHeadingLevel(string line)
         {
-            if (string.IsNullOrEmpty(line) || !line.StartsWith("#"))
+            if (string.IsNullOrEmpty(line) || !line.StartsWith('#'))
             {
                 return 0;
             }

@@ -1,13 +1,24 @@
 # Initial setup
 
-Create local.settings.json
+## Config files 
+
+Create local.settings.json for CSharpDevMCP
 
 {
   "Values": {
     "PathToSolution": "<Path to your test project>"
-    "ApplicationName": "Calculator"
   }
 }
+
+Create local.settings.json for ApplicationController
+
+{
+  "Values": {
+   "ApplicationName": "Calculator"
+   }
+}
+
+## MCP Configuration
 
 Create sample .mcp.json file in the root of your solution with the following content:
 
@@ -20,9 +31,18 @@ Create sample .mcp.json file in the root of your solution with the following con
       "command": "<Path to exe>\\CSharpDevMCP.exe",
       "args": [],
       "env": {}
+    },
+    "ApplicationController": {
+      "type": "stdio",
+      "command": "<Path to exe>\\ApplicationController.exe",
+      "args": [
+      ],
+      "env": {}
     }
   }
 }
+
+
 ```
 
 # Test MCP

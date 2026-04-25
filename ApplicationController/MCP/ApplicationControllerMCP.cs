@@ -1,9 +1,9 @@
-﻿using CSharpDevMCP.FlaUI;
+﻿using ApplicationController.FlaUI;
 using FlaUI.Core.Input;
 using ModelContextProtocol.Server;
 using System.ComponentModel;
 
-namespace CSharpDevMCP.MCP
+namespace ApplicationController.MCP
 {
     /// <summary>
     /// Provides MCP tools for interacting with the application under test, such as getting snapshots, clicking elements, and setting text.
