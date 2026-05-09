@@ -63,31 +63,6 @@ namespace CSharpDevMCP.MCP
             }
         }
 
-        [McpServerTool, Description("GetPastLessons")]
-        public string GetPastLessons(string subPath)
-        {
-            try
-            {
-                var lessons = MDExtractor.ExtractHeadingBlocks(File.ReadAllText(StaticSettings.SettingValues.LessonsMdFilePath), [subPath, "General"]);
-
-                var sb = new StringBuilder();
-                foreach (var lesson in lessons)
-                {
-                    sb.AppendLine($"Lesson: {lesson.Key}");
-                    sb.AppendLine(lesson.Value);
-                    sb.AppendLine();
-                }
-
-                return sb.ToString();
-            }
-            catch (Exception ex)
-            {
-                return $"Exception running git: {ex.Message}";
-            }
-        }
-
-
-
         private static void WriteLog(string message)
         {
             string logPath = StaticSettings.SettingValues.PathToSolution + @"\log.txt";
