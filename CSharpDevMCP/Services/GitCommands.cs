@@ -42,7 +42,8 @@ namespace CSharpDevMCP.Services
 
         public static string GetBranchChanges(string workingDir)
         {
-            var psi = new ProcessStartInfo("git", "--no-pager diff main...HEAD")
+            string filterUnitTests = "\":(exclude)**/*Test.cs\" \":(exclude)**/*Tests.cs\" \":(exclude)**/*Tests/*.cs\" \":(exclude)**/*.UnitTests.cs\"  \":(exclude)**/*.IntegrationTests.cs\"";
+            var psi = new ProcessStartInfo("git", "--no-pager diff main...HEAD " + filterUnitTests)
             {
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
