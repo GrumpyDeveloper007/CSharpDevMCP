@@ -47,4 +47,13 @@ public class ElementRegistry
     {
         return _elements.TryGetValue(refId, out var element) ? element : null;
     }
+
+
+    /// <summary>
+/// 
+/// </summary>
+    public int GetElementCount()
+    {
+        return _elements.Count;
+    }
 }

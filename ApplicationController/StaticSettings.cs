@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationController
+namespace ApplicationController;
+
+internal class StaticSettings
 {
-    internal class StaticSettings
-    {
-        public static SettingValues SettingValues { get; set; } = new();
-    }
+    public static SettingValues SettingValues { get; set; } = new();
 }

@@ -6,11 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApplicationController
-{
-    internal class SettingValues
-    {
-        public string ApplicationName { get; set; } = "";
-    }
+namespace ApplicationController;
 
+internal class SettingValues
+{
+    public string ApplicationName { get; set; } = "";
 }

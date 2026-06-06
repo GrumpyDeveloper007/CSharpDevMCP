@@ -1,6 +1,7 @@
-using System.Text;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
+using System.Text;
+using System.Xml.Linq;
 
 namespace ApplicationController.FlaUI;
 
@@ -10,7 +11,6 @@ namespace ApplicationController.FlaUI;
 /// </summary>
 public class SnapshotBuilder(ElementRegistry _elementRegistry, int _maxDepth = 100)
 {
-
     public string BuildSnapshot(string windowHandle, AutomationElement root)
     {
         // Clear previous elements for this window
@@ -55,13 +55,43 @@ public class SnapshotBuilder(ElementRegistry _elementRegistry, int _maxDepth = 1
         }
     }
 
+    private static string GetText(AutomationElement element)
+    {
+        string? text = null;
+        // Try Value pattern first (for text inputs)
+        if (element.Patterns.Value.IsSupported)
+        {
+            text = element.Patterns.Value.Pattern.Value.ValueOrDefault;
+        }
+
+        // Fall back to Name property
+        if (string.IsNullOrEmpty(text))
+        {
+            text = element.Properties.Name.ValueOrDefault;
+        }
+
+        // Try Text pattern
+        if (string.IsNullOrEmpty(text) && element.Patterns.Text.IsSupported)
+        {
+            text = element.Patterns.Text.Pattern.DocumentRange.GetText(-1);
+        }
+
+        return text ?? "";
+    }
+
     private static string BuildElementLine(AutomationElement element, string refId, string? name, string role)
     {
         var parts = new List<string>
+    {
+// Role first
+role
+    };
+
+        var text = GetText(element);
+        if (!string.IsNullOrWhiteSpace(text))
         {
-            // Role first
-            role
-        };
+            parts.Add($"[text={EscapeName(text)}]");
+        }
 
         // Name in quotes if present
         if (!string.IsNullOrEmpty(name))
