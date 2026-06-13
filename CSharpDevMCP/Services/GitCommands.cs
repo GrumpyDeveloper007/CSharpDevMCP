@@ -256,6 +256,12 @@ internal static class GitCommands
                 pathPart = parts.Last().Trim();
             }
 
+            if (line.StartsWith(" D"))
+            {
+                sb.AppendLine($"file deleted {pathPart}");
+                continue;
+            }
+
             sb.AppendLine($"New file added {pathPart}");
 
             try

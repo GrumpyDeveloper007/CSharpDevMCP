@@ -26,11 +26,13 @@ public class GitToolMCP
                 string workingDir = dirInfo?.FullName ?? Environment.CurrentDirectory;
 
                 var stdout = GitCommands.GetChangedFiles(workingDir);
-                var sb = new StringBuilder();
-                GitCommands.GetNewFiles(workingDir, sb);
 
-                result.AppendLine(stdout + "\r\n" + sb.ToString());
+                result.AppendLine(stdout);
             }
+            var sb = new StringBuilder();
+            GitCommands.GetNewFiles(StaticSettings.SettingValues.PathToSolution, sb);
+
+            result.AppendLine("\r\n" + sb.ToString());
             return string.IsNullOrEmpty(result.ToString()) ? "No changes\r\n" : result.ToString();
         }
         catch (Exception ex)
@@ -54,10 +56,7 @@ public class GitToolMCP
                 string workingDir = dirInfo?.FullName ?? Environment.CurrentDirectory;
 
                 var stdout = GitCommands.GetBranchChanges(workingDir);
-                var sb = new StringBuilder();
-                GitCommands.GetNewFiles(workingDir, sb);
-
-                result.AppendLine(stdout + "\r\n" + sb.ToString());
+                result.AppendLine(stdout);
             }
 
             return string.IsNullOrEmpty(result.ToString()) ? "No changes\r\n" : result.ToString();
